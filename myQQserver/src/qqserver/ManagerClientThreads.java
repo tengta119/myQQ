@@ -32,4 +32,10 @@ public class ManagerClientThreads
         }
         return onlineUserList.toString();
     }
+
+    //从集合删除掉某个线程
+    public static void removeServerConnectClientThread(String userId)
+    {
+        hm.remove(userId);
+    }
 }

@@ -64,4 +64,18 @@ public class UserClientService
         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(u.getUserId()).getSocket().getOutputStream());
         oos.writeObject(message);//发送一个message对象,向服务段要在线用户列表
     }
+
+    //退出客户端，并给服务器端发送一个退出系统的message
+    public void logout() throws IOException
+    {
+        Message message = new Message();
+        message.setMesType(MessageType.MESSAGE_CLIENT_EXIT);
+        message.setSender(u.getUserId());//指定是那个客户端
+
+        //发送message
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject(message);
+        System.out.println(u.getUserId()+"退出系统");
+        System.exit(0);
+    }
 }
