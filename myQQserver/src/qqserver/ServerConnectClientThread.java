@@ -22,6 +22,11 @@ public class ServerConnectClientThread extends Thread
         this.userId = userId;
     }
 
+    public Socket getSocket()
+    {
+        return socket;
+    }
+
     @Override
     public void run()//线程处于run状态，可以发送/接收消息
     {
@@ -54,6 +59,13 @@ public class ServerConnectClientThread extends Thread
                     ManagerClientThreads.removeServerConnectClientThread(message.getSender());
                     socket.close();
                     break;
+                }
+                else if(message.getMesType().equals(MessageType.MESSAGE_COMM_MES))//转发消息
+                {
+                    System.out.println(message.getSender() + "想对"+message.getGetter() + "说:" + message.getContent());
+                    ServerConnectClientThread serverConnectClientThread = ManagerClientThreads.getServerConnectClientThread(message.getGetter());
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
+                    objectOutputStream.writeObject(message);//转发，如果客户不在线，可以保存到数据库
                 }
 
             } catch (Exception e)

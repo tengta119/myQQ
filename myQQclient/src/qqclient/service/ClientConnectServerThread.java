@@ -37,6 +37,11 @@ public class ClientConnectServerThread extends Thread
                     System.out.println("========当前在线用户列表==========");
                     System.out.println(onlineUsers);
                 }
+                else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES))
+                {
+                    //把服务器转发的消息，显示到控制台
+                    System.out.println(message.getSender() + "对" + message.getGetter() + "说:" + message.getContent());
+                }
                 else
                 {
                     System.out.println("其他类型message");

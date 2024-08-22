@@ -1,5 +1,6 @@
 package qqclient;
 
+import qqclient.service.MessageClientService;
 import qqclient.service.UserClientService;
 import qqclient.utils.Utility;
 import java.io.IOException;
@@ -9,6 +10,7 @@ public class QQview
     private boolean loop = true;//是否显示菜单
     private String key = "";
     private UserClientService userClientService = new UserClientService();//用来登录服务器
+    private MessageClientService messageClientService = new MessageClientService();//私聊/群聊
     //显示主菜单
     private void mainMenu() throws IOException, ClassNotFoundException
     {
@@ -54,6 +56,11 @@ public class QQview
                                     break;
                                 case "3":
                                     System.out.println("私聊消息");
+                                    System.out.println("请输入想聊天的用户号:");
+                                    String getter = Utility.readString(50);
+                                    System.out.println("请输入想说的话");
+                                    String content = Utility.readString(100);
+                                    messageClientService.sendMessageToOne(content,userId,getter);
                                     break;
                                 case "4":
                                     System.out.println("发送消息");
