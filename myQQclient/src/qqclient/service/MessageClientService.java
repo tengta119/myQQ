@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 
 public class MessageClientService
 {
-
     public void sendMessageToOne(String content,String senderId,String getterId) throws IOException
     {
         Message message = new Message();
@@ -25,4 +24,17 @@ public class MessageClientService
         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(senderId).getSocket().getOutputStream());
         oos.writeObject(message);
     }
+
+    public void sendMessageToAll(String content,String senderId) throws IOException
+    {
+        Message message = new Message();
+        message.setSender(senderId);
+        message.setContent(content);
+        message.setMesType(MessageType.MESSAGE_TO_ALL_MES);
+        message.setSendTime(new java.util.Date().toString());
+        System.out.println(senderId + "对大家说："+content);
+        ObjectOutputStream oos = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(senderId).getSocket().getOutputStream());
+        oos.writeObject(message);
+    }
+
 }

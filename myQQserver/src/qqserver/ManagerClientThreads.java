@@ -19,6 +19,11 @@ public class ManagerClientThreads
         return hm.get(userId);
     }
 
+    public static HashMap<String, ServerConnectClientThread> getHm()
+    {
+        return hm;
+    }
+
     //返回在线用户列表
     public static String getOnlineUser()
     {

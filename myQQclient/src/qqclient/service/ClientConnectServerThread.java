@@ -2,8 +2,10 @@ package qqclient.service;
 import qqcommon.Message;
 import qqcommon.MessageType;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class ClientConnectServerThread extends Thread
@@ -41,6 +43,19 @@ public class ClientConnectServerThread extends Thread
                 {
                     //把服务器转发的消息，显示到控制台
                     System.out.println(message.getSender() + "对" + message.getGetter() + "说:" + message.getContent());
+                }
+                else if(message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES))
+                {
+                    System.out.println(message.getSender()+" 想对大家说: "+message.getContent());
+                }
+                else if(message.getMesType().equals(MessageType.MESSAGE_FILE_MES))
+                {
+                    System.out.println(message.getSender() + " 给我发送文件"+message.getSrc() + "到我的电脑的 "+ message.getDest());
+                    FileOutputStream fileOutputStream = new FileOutputStream(message.getDest());
+                    fileOutputStream.write(message.getFileBytes());
+                    fileOutputStream.close();
+                    System.out.println("保存文件成功");
+
                 }
                 else
                 {
