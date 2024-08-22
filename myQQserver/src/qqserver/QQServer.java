@@ -49,6 +49,7 @@ public class QQServer
     {
         //端口可以写在配置文件
         System.out.println("服务器在9999端口监听");
+        new Thread(new SenNewsToAllService()).start();
         ss = new ServerSocket(9999);
         while (true)
         {
