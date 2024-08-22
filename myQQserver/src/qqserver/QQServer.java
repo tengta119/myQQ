@@ -55,6 +55,7 @@ public class QQServer
         {
             //当和某个客户端连接后，会继续监听
             Socket socket = ss.accept();//如果没有客户端连接，就会阻塞在这里
+
             //得到socket关联的对象输入流输出liu
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -70,6 +71,7 @@ public class QQServer
                 serverConnectClientThread.start();
                 //将线程看作一个对象放入到一个集合中，进行管
                 ManagerClientThreads.aadClientThread(u.getUserId(),serverConnectClientThread);
+                OfflineSendMessage.sendMessageOffine(u.getUserId());
             }
             else
             {

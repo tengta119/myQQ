@@ -66,8 +66,15 @@ public class ServerConnectClientThread extends Thread
                 {
                     System.out.println(message.getSender() + "想对"+message.getGetter() + "说:" + message.getContent());
                     ServerConnectClientThread serverConnectClientThread = ManagerClientThreads.getServerConnectClientThread(message.getGetter());
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
-                    objectOutputStream.writeObject(message);//转发，如果客户不在线，可以保存到数据库
+                    if(serverConnectClientThread!=null)
+                    {
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
+                        objectOutputStream.writeObject(message);//转发，如果客户不在线，可以保存到数据库
+                    }
+                    else
+                    {
+                        OfflineSendMessage.Addhm(message.getGetter(),message);
+                    }
                 }
                 else if(message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES))
                 {
@@ -89,8 +96,15 @@ public class ServerConnectClientThread extends Thread
                 else if(message.getMesType().equals(MessageType.MESSAGE_FILE_MES))
                 {
                     ServerConnectClientThread serverConnectClientThread = ManagerClientThreads.getServerConnectClientThread(message.getGetter());
-                    ObjectOutputStream oos = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
-                    oos.writeObject(message);
+                    if(serverConnectClientThread!=null)
+                    {
+                        ObjectOutputStream oos = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
+                        oos.writeObject(message);
+                    }
+                    else
+                    {
+                        OfflineSendMessage.Addhm(message.getGetter(),message);
+                    }
                 }
 
             } catch (Exception e)
